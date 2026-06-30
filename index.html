@@ -62,7 +62,7 @@
 
     <script>
         // System Config
-        const API_URL = "https://script.google.com/macros/s/AKfycby39QuKEbxXJhA_hGbk7O3bVl2y1-15nnOacKQh5aV7bNMTWz_CQuNa6WMmSAFTvbs_/exec"; // <--- PASTE YOUR GOOGLE SCRIPT URL HERE
+        const API_URL = "https://script.google.com/macros/s/AKfycbyFarPHBklgEzsPGaNjOOwxvD8-MLfA2lXle0Cgbh21srhJocPUit3jorT3s-1ev3fK/exec"; // <--- PASTE YOUR GOOGLE SCRIPT URL HERE
 
         const denominations = {
             bills: [
@@ -129,7 +129,6 @@
 
         // Logic processing
         function updateCount(id, delta) {
-            // Read whatever is currently in the input box, default to 0 if empty/invalid
             let currentVal = parseInt(document.getElementById(`count-${id}`).value) || 0;
             
             if (currentVal + delta >= 0) {
@@ -141,7 +140,6 @@
 
         function setManualCount(id, value) {
             let parsedVal = parseInt(value);
-            // If the user clears the box or types nonsense, treat it as 0 for math purposes
             if (isNaN(parsedVal) || parsedVal < 0) {
                 parsedVal = 0;
             }
@@ -185,12 +183,15 @@
                 breakdown: breakdownData 
             };
 
+            // THE CAMOUFLAGE: Wrap the JSON in standard form data encoding
+            const urlEncodedData = new URLSearchParams();
+            urlEncodedData.append("payload", JSON.stringify(payload));
+
             try {
                 const response = await fetch(API_URL, {
                     method: "POST",
-                    headers: { "Content-Type": "text/plain;charset=utf-8" },
-                    redirect: "follow", 
-                    body: JSON.stringify(payload)
+                    // Notice: NO headers defined here. The browser handles it natively to bypass CORS.
+                    body: urlEncodedData 
                 });
                 
                 const result = await response.json();
