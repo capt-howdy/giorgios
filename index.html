@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>BoH Reporting Tool</title>
+    <title>Bank Construct</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
         /* Disable zooming on double tap for tactile inputs */
@@ -51,7 +51,7 @@
 
     <script>
         // System Config
-        const API_URL = "https://script.google.com/macros/s/AKfycby39QuKEbxXJhA_hGbk7O3bVl2y1-15nnOacKQh5aV7bNMTWz_CQuNa6WMmSAFTvbs_/exec";
+        const API_URL = "https://script.google.com/macros/s/AKfycby39QuKEbxXJhA_hGbk7O3bVl2y1-15nnOacKQh5aV7bNMTWz_CQuNa6WMmSAFTvbs_/exec"; // <--- PASTE YOUR NEW GOOGLE SCRIPT URL HERE
 
         const denominations = {
             bills: [
@@ -75,110 +75,4 @@
         async function bootSequence() {
             const managerSelect = document.getElementById('manager-id');
             try {
-                const response = await fetch(API_URL);
-                const result = await response.json();
-                
-                if (result.status === "success") {
-                    managerSelect.innerHTML = '<option value="" disabled selected>Select Mgr</option>';
-                    result.managers.forEach(mgr => {
-                        const opt = document.createElement('option');
-                        opt.value = mgr;
-                        opt.innerText = mgr;
-                        managerSelect.appendChild(opt);
-                    });
-                } else {
-                    managerSelect.innerHTML = '<option value="" disabled>Auth Error</option>';
-                }
-            } catch (error) {
-                managerSelect.innerHTML = '<option value="" disabled>Network Offline</option>';
-            }
-        }
-
-        // Render UI Elements
-        function generateRow(item, colorScheme) {
-            const btnClass = `w-12 h-12 bg-${colorScheme}-700 rounded active:bg-${colorScheme}-500 text-xl font-bold flex items-center justify-center shadow`;
-            return `
-                <div class="flex items-center justify-between bg-gray-900 p-2 rounded">
-                    <div class="w-24 font-mono text-sm text-${colorScheme}-400">${item.label}</div>
-                    <div class="flex items-center space-x-4">
-                        <button onclick="updateCount('${item.id}', -1)" class="${btnClass}">-</button>
-                        <div id="count-${item.id}" class="w-8 text-center text-xl font-bold">0</div>
-                        <button onclick="updateCount('${item.id}', 1)" class="${btnClass}">+</button>
-                    </div>
-                </div>`;
-        }
-
-        document.getElementById('bills-container').innerHTML = denominations.bills.map(b => generateRow(b, 'emerald')).join('');
-        document.getElementById('coins-container').innerHTML = denominations.coins.map(c => generateRow(c, 'gray')).join('');
-
-        // Logic processing
-        function updateCount(id, delta) {
-            if (counts[id] + delta >= 0) {
-                counts[id] += delta;
-                document.getElementById(`count-${id}`).innerText = counts[id];
-                updateTotal();
-            }
-        }
-
-        function updateTotal() {
-            let total = 0;
-            denominations.bills.forEach(b => total += counts[b.id] * b.val);
-            denominations.coins.forEach(c => total += counts[c.id] * c.val);
-            document.getElementById('grand-total').innerText = total.toFixed(2);
-            return total;
-        }
-
-        async function transmitData() {
-            const manager = document.getElementById('manager-id').value;
-            if (!manager) { alert("ERROR: Identity not authenticated. Please select a Manager."); return; }
-
-            const btn = document.getElementById('transmit-btn');
-            const status = document.getElementById('status-message');
-            
-            btn.innerText = "Transmitting...";
-            btn.disabled = true;
-
-            const total = updateTotal();
-            
-            // Capture the exact localized time of the action
-            const actionTime = new Date().toLocaleString();
-            
-            const breakdownData = {
-                hundreds: counts.hundreds * 100, fifties: counts.fifties * 50, twenties: counts.twenties * 20,
-                tens: counts.tens * 10, fives: counts.fives * 5, ones: counts.ones * 1,
-                quarters: counts.quarters * 10, dimes: counts.dimes * 5, nickels: counts.nickels * 2, pennies: counts.pennies * 0.5
-            };
-
-            const payload = { 
-                manager: manager, 
-                timestamp: actionTime,
-                total: total, 
-                breakdown: breakdownData 
-            };
-
-            try {
-                const response = await fetch(API_URL, {
-                    method: "POST",
-                    headers: { "Content-Type": "application/json" },
-                    body: JSON.stringify(payload)
-                });
-                
-                const result = await response.json();
-                
-                if (result.status === "success") {
-                    status.innerText = `Transmission successful. Variance: $${result.variance.toFixed(2)}`;
-                    status.className = "text-center text-sm mt-4 text-emerald-400 block font-bold tracking-wider";
-                    btn.innerText = "Count Logged";
-                } else {
-                    throw new Error(result.error);
-                }
-            } catch (error) {
-                status.innerText = "Transmission failed. Check network connection.";
-                status.className = "text-center text-sm mt-4 text-red-500 block font-bold tracking-wider";
-                btn.innerText = "Retry Transmission";
-                btn.disabled = false;
-            }
-        }
-    </script>
-</body>
-</html>
+                const
