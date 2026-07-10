@@ -87,19 +87,16 @@ header {
     font-size: 1.1rem;
 }
 
-input[type="number"]::placeholder {
-    color: var(--text-muted);
-    opacity: 0.7;
+input[type="number"] {
+    width: 100%;
+    padding: 0.5rem;
+    font-size: 1.1rem;
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    text-align: center;
+    background-color: var(--bg-color);
+    color: var(--text-main);
 }
-
-input[type="number"]::-webkit-input-placeholder {
-    color: var(--text-muted);
-}
-input[type="number"]::-moz-placeholder {
-    color: var(--text-muted);
-    opacity: 0.7;
-}
-
 /* Hide arrows on number inputs for cleaner UI */
 input[type=number]::-webkit-inner-spin-button, 
 input[type=number]::-webkit-outer-spin-button { 
