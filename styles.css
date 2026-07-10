@@ -1,11 +1,11 @@
 :root {
     /* Central nervous system for your brand colors */
     --bg-color: #2e2e2e;
-    --surface: #ffffff;
-    --primary: #8b0000; /* Giorgio's Red */
-    --text-main: #333333;
-    --text-muted: #666666;
-    --border: #e0e0e0;
+    --surface: #9e7f6d;
+    --primary: #82181a; /* Giorgio's Red */
+    --text-main: #f4f4f4;
+    --text-muted: #9ca3af;
+    --border: #9bab65;
 }
 
 * {
