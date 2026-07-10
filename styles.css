@@ -82,7 +82,7 @@ header {
 .total-col {
     flex: 1;
     text-align: right;
-    color: var(--text-muted);
+    color: var(--text-main);
     font-family: monospace;
     font-size: 1.1rem;
 }
@@ -130,8 +130,8 @@ input[type=number]::-webkit-outer-spin-button {
 
 button.clear-btn {
     background: none;
-    border: 1px solid var(--text-muted);
-    color: var(--text-muted);
+    border: 1px solid var(--primary);
+    color: var(--primary);
     padding: 0.5rem 1rem;
     border-radius: 4px;
     cursor: pointer;
