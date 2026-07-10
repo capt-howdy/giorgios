@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Giorgio's Cash Drawer Reconciliation</title>
+    <!-- The CSS umbilical cord -->
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+    <header>
+        <h2>Drawer Reconciliation</h2>
+    </header>
+
+    <div class="container">
+        
+        <!-- PAPER BILLS -->
+        <div class="section-card" id="paper-bills">
+            <h3 class="section-title">Paper Bills</h3>
+            <div class="input-group" data-val="100">
+                <div class="label-col">$100</div>
+                <div class="input-col"><input type="number" min="0" inputmode="numeric" placeholder="0"></div>
+                <div class="total-col row-total">$0.00</div>
+            </div>
+            <div class="input-group" data-val="50">
+                <div class="label-col">$50</div>
+                <div class="input-col"><input type="number" min="0" inputmode="numeric" placeholder="0"></div>
+                <div class="total-col row-total">$0.00</div>
+            </div>
+            <div class="input-group" data-val="20">
+                <div class="label-col">$20</div>
+                <div class="input-col"><input type="number" min="0" inputmode="numeric" placeholder="0"></div>
+                <div class="total-col row-total">$0.00</div>
+            </div>
+            <div class="input-group" data-val="10">
+                <div class="label-col">$10</div>
+                <div class="input-col"><input type="number" min="0" inputmode="numeric" placeholder="0"></div>
+                <div class="total-col row-total">$0.00</div>
+            </div>
+            <div class="input-group" data-val="5">
+                <div class="label-col">$5</div>
+                <div class="input-col"><input type="number" min="0" inputmode="numeric" placeholder="0"></div>
+                <div class="total-col row-total">$0.00</div>
+            </div>
+            <div class="input-group" data-val="1">
+                <div class="label-col">$1</div>
+                <div class="input-col"><input type="number" min="0" inputmode="numeric" placeholder="0"></div>
+                <div class="total-col row-total">$0.00</div>
+            </div>
+        </div>
+
+        <!-- ROLLED COINS -->
+        <div class="section-card" id="rolled-coins">
+            <h3 class="section-title">Rolled Coins</h3>
+            <div class="input-group" data-val="10">
+                <div class="label-col">Quarters ($10)</div>
+                <div class="input-col"><input type="number" min="0" inputmode="numeric" placeholder="0"></div>
+                <div class="total-col row-total">$0.00</div>
+            </div>
+            <div class="input-group" data-val="5">
+                <div class="label-col">Dimes ($5)</div>
+                <div class="input-col"><input type="number" min="0" inputmode="numeric" placeholder="0"></div>
+                <div class="total-col row-total">$0.00</div>
+            </div>
+            <div class="input-group" data-val="2">
+                <div class="label-col">Nickels ($2)</div>
+                <div class="input-col"><input type="number" min="0" inputmode="numeric" placeholder="0"></div>
+                <div class="total-col row-total">$0.00</div>
+            </div>
+            <div class="input-group" data-val="0.5">
+                <div class="label-col">Pennies (50&cent;)</div>
+                <div class="input-col"><input type="number" min="0" inputmode="numeric" placeholder="0"></div>
+                <div class="total-col row-total">$0.00</div>
+            </div>
+        </div>
+
+        <!-- LOOSE COINS -->
+        <div class="section-card" id="loose-coins">
+            <h3 class="section-title">Loose Coins</h3>
+            <div class="input-group" data-val="0.25">
+                <div class="label-col">Quarters</div>
+                <div class="input-col"><input type="number" min="0" inputmode="numeric" placeholder="0"></div>
+                <div class="total-col row-total">$0.00</div>
+            </div>
+            <div class="input-group" data-val="0.10">
+                <div class="label-col">Dimes</div>
+                <div class="input-col"><input type="number" min="0" inputmode="numeric" placeholder="0"></div>
+                <div class="total-col row-total">$0.00</div>
+            </div>
+            <div class="input-group" data-val="0.05">
+                <div class="label-col">Nickels</div>
+                <div class="input-col"><input type="number" min="0" inputmode="numeric" placeholder="0"></div>
+                <div class="total-col row-total">$0.00</div>
+            </div>
+            <div class="input-group" data-val="0.01">
+                <div class="label-col">Pennies</div>
+                <div class="input-col"><input type="number" min="0" inputmode="numeric" placeholder="0"></div>
+                <div class="total-col row-total">$0.00</div>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- STICKY FOOTER FOR TOTAL -->
+    <div class="sticky-footer">
+        <button class="clear-btn" onclick="clearForm()">Clear All</button>
+        <div style="text-align: right;">
+            <div class="grand-total-label">Grand Total</div>
+            <div class="grand-total-value" id="grand-total">$0.00</div>
+        </div>
+    </div>
+
+    <script>
+        const inputs = document.querySelectorAll('input[type="number"]');
+        const grandTotalDisplay = document.getElementById('grand-total');
+
+        function calculateTotals() {
+            let grandTotal = 0;
+
+            document.querySelectorAll('.input-group').forEach(group => {
+                const input = group.querySelector('input');
+                const multiplier = parseFloat(group.getAttribute('data-val'));
+                const rowTotalDisplay = group.querySelector('.row-total');
+                
+                const count = parseInt(input.value) || 0;
+                const rowTotal = count * multiplier;
+                
+                // Update line-item
+                rowTotalDisplay.textContent = '$' + rowTotal.toFixed(2);
+                
+                // Add to Grand Total
+                grandTotal += rowTotal;
+            });
+
+            // Update Grand Total
+            grandTotalDisplay.textContent = '$' + grandTotal.toFixed(2);
+        }
+
+        function clearForm() {
+            if(confirm("Clear the entire drawer?")) {
+                inputs.forEach(input => input.value = '');
+                calculateTotals();
+                window.scrollTo(0,0);
+            }
+        }
+
+        // Attach event listeners
+        inputs.forEach(input => {
+            input.addEventListener('input', calculateTotals);
+            // Auto-select text on focus so they can quickly type over "0"
+            input.addEventListener('focus', function() {
+                this.select();
+            });
+        });
+    </script>
+</body>
+</html>
